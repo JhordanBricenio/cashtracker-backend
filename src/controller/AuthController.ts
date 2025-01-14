@@ -24,7 +24,7 @@ export class AuthController {
         email: user.email,
         token: user.token,
       });
-      res.status(201).json("Cuenta creada con éxito");
+      res.status(201).json("Cuenta creada con éxito, revisa tu email");
     } catch (error) {
       console.error(error);
       res.status(500).json("Error al crear la cuenta");
@@ -82,7 +82,7 @@ export class AuthController {
       token: user.token,
     });
 
-    res.json("Email enviado");
+    res.json("Revisa tu email para restablecer la contraseña");
   };
 
   static validateToken = async (req: Request, res: Response) => {
@@ -93,8 +93,7 @@ export class AuthController {
       res.status(404).json({ error: error.message });
       return;
     }
-
-    console.log("tooken valido");
+    res.json("Token válido, puedes restablecer la contraseña");
   };
 
   static resetPasswordWithToken = async (req: Request, res: Response) => {
