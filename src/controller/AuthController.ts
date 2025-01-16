@@ -49,7 +49,7 @@ export class AuthController {
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      res.status(401).json("Email o contraseña incorrectos");
+      res.status(401).json({ error: "Email o contraseña incorrectos" });
       return;
     }
     if (!user.confirmed) {
@@ -59,7 +59,7 @@ export class AuthController {
 
     const isPasswordCorrect = await comparePassword(password, user.password);
     if (!isPasswordCorrect) {
-      res.status(401).json("Email o contraseña incorrectos");
+      res.status(401).json({ error: "Email o contraseña incorrectos" });
       return;
     }
     const token = generateTokenjwt(user.id);
