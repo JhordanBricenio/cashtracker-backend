@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { body, param } from "express-validator";
 import { BudgetController } from "../controller/BudgetController";
 import { handleInputErrors } from "../middleware/validation";
 import {
@@ -9,7 +8,7 @@ import {
   validateBudgetExists,
 } from "../middleware/budget";
 import { ExpensesController } from "../controller/ExpenseController";
-import { validateExpenseBody, validateExpenseExists, validateExpenseId } from "../middleware/expense";
+import { belongsToBudget, validateExpenseBody, validateExpenseExists, validateExpenseId } from "../middleware/expense";
 import { authenticate } from "../middleware/auth";
 
 const router = Router();
@@ -21,6 +20,7 @@ router.param("budgetId", hasAccess);
 
 router.param("expenseId", validateExpenseId);
 router.param("expenseId", validateExpenseExists);
+router.param("expenseId", belongsToBudget);
 
 
 router.get("/", BudgetController.getAll);

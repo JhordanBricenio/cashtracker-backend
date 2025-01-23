@@ -87,5 +87,13 @@ router.post("/check-password",
   AuthController.checkPassword
 )
 
+router.put("/update-user",
+  authenticate,
+  body("name").notEmpty().withMessage("El nombre es requerido"),
+  body("email").isEmail().withMessage("El email es inválido"),
+  handleInputErrors,
+  AuthController.updateUser
+)
+
 
 export default router;

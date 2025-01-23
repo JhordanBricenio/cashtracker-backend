@@ -147,4 +147,19 @@ export class AuthController {
     }
     res.json("Password correcta");
   };
+
+  static updateUser = async (req: Request, res: Response) => {
+    const { id } = req.user;
+    const user = await User.findByPk(id);
+    if(user.email !== req.body.email) {
+      const userExists = await User.findOne({ where: { email: req.body.email } });
+      if (userExists) {
+        res.status(409).json("El email ya está registrado");
+        return;
+      }
+    }
+    user.set(req.body);
+    await user.save();
+    res.json("Usuario actualizado con éxito");
+  }
 }

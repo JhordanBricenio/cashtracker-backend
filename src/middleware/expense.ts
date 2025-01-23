@@ -61,8 +61,20 @@ export const validateExpenseExists = async (
     }
     req.expense = expense;
     next();
-
   } catch (error) {
     res.status(500).json({ message: error });
   }
+};
+
+export const belongsToBudget = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.budget.id !== req.expense.budgetId) {
+    const error = new Error("Acceso denegado");
+    res.status(403).json({ message: error.message });
+    return;
+  }
+  next();
 };
